@@ -27,9 +27,38 @@ if [[ "$DEPLOY_DOCS" != "true" ]]; then
     exit 0
 fi
 
-echo "... started deploy docs script"
+echo "... preparing deployment"
 
-ls
-echo $TRAVIS_BUILD_DIR
+# Get curent commit revision
+rev=$(git rev-parse --short HEAD)
+
+echo "... revision: ${rev}"
+
+# Initialize gh-pages checkout
+mkdir -p ${TRAVIS_BUILD_DIR}/docs/build
+(
+    echo "... setup build dir"
+    cd ${TRAVIS_BUILD_DIR}/docs/build
+    git init
+    git config user.name "Travis-CI"
+    git config user.email "travis@xtreamwayz.com"
+    git remote add upstream "https://${GH_TOKEN}@github.com/${GH_REPO}.wiki.git"
+    git fetch upstream
+    git reset upstream/master
+)
+
+# Build the documentation
+echo "... copying docs"
+cp -rf ${TRAVIS_BUILD_DIR}/docs/wiki/* ${TRAVIS_BUILD_DIR}/docs/build/
+
+# Commit and push the documentation
+(
+    echo "... commiting and pushing the docs"
+    cd ${TRAVIS_BUILD_DIR}/docs/build
+    touch .
+    git add -A .
+    git commit -m "Rebuild wiki at ${rev}"
+    git push -q upstream HEAD:master
+)
 
 echo "... deployment ready"
