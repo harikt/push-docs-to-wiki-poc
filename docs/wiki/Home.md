@@ -16,3 +16,5 @@ Set the following environment variables, either in travis.yml or on the travis p
     ```bash
     $ travis encrypt -r <org>/<repo> GH_TOKEN=<token value>
     ```
+
+Test username.
