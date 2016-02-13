@@ -10,8 +10,17 @@ Set the following environment variables, either in travis.yml or on the travis p
 - ``GH_REPO`` indicates the GitHub <user>/<repository_name> location;
 - ``GH_TOKEN`` is the personal security token to use for commits.
 
-  Set the ``GH_TOKEN`` directly on the travis project settings page or use travis cli:
+  Set the ``GH_TOKEN`` directly on the travis project settings page or use
+  [travis cli](https://github.com/travis-ci/travis.rb#readme) to create a secure variable:
 
     ```bash
     $ travis encrypt -r <org>/<repo> GH_TOKEN=<token value>
+    ```
+
+    and place it in travis.yml:
+
+    ```yml
+    env:
+      global:
+        - secure: "..."
     ```
