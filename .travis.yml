@@ -24,15 +24,11 @@ install:
   - ls
   - ls docs
 
-after_success:
-  if ([ "$TRAVIS_BRANCH" == "master" ] || [ ! -z "$TRAVIS_TAG" ]) &&
-    [ "$TRAVIS_PULL_REQUEST" == "false" ] &&
-    [ "$DEPLOY_DOCS" == "true" ]; then
-      chmod 755 ./docs/deploy.sh;
-      bash ./docs/deploy.sh;
-  else
-    echo "Ignore deploying documentation"
-  fi;
+deploy:
+  provider: script
+  script: docs/deploy.sh
+  on:
+  	branch: master
 
 notifications:
   email: true
