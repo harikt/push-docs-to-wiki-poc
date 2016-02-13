@@ -16,7 +16,10 @@
 
 set -o errexit -o nounset
 
-SCRIPT_PATH="$(cd "$(dirname "$0")" && pwd -P)"
+set SCRIPTPATH=`dirname "$SCRIPT"`
+echo $SCRIPTPATH
+
+echo $TRAVIS_BUILD_DIR
 
 # Get curent commit revision
 rev=$(git rev-parse --short HEAD)
