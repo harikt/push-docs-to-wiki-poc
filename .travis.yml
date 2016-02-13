@@ -10,13 +10,12 @@ cache:
 matrix:
   fast_finish: true
   include:
-    - php: 7
+    - php: 5.6
       env:
         - DEPLOY_DOCS=true
 
 before_install:
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
-  - composer self-update
 
 install:
   - travis_retry composer install --no-interaction
@@ -29,8 +28,8 @@ after_success:
   if ([ "$TRAVIS_BRANCH" == "master" ] || [ ! -z "$TRAVIS_TAG" ]) &&
     [ "$TRAVIS_PULL_REQUEST" == "false" ] &&
     [ "$DEPLOY_DOCS" == "true" ]; then
-    chmod 755 ./docs/deploy.sh
-    bash ./docs/deploy.sh
+      chmod 755 ./docs/deploy.sh;
+      bash ./docs/deploy.sh;
   else
     echo "Ignore deploying documentation"
   fi;
