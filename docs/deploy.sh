@@ -16,7 +16,12 @@
 
 #set -o errexit ; set -o nounset
 
-cd $TRAVIS_BUILD_DIR
+ls
+
+PROJECT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo $PROJECT_PATH
+echo $TRAVIS_BUILD_DIR
 
 # Get curent commit revision
 rev=$(git rev-parse --short HEAD)
