@@ -20,15 +20,12 @@ before_install:
 install:
   - travis_retry composer install --no-interaction
   - composer info -i
-  - echo ${TRAVIS_BUILD_DIR}
-  - ls
-  - ls docs
 
 deploy:
   provider: script
   script: docs/deploy.sh
   on:
-  	branch: master
+    branch: master
 
 notifications:
   email: true
