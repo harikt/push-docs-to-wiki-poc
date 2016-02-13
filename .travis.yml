@@ -12,7 +12,7 @@ matrix:
   include:
     - php: 7
       env:
-        - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
+        - DEPLOY_DOCS=true
 
 before_install:
   - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
@@ -26,7 +26,13 @@ install:
   - ls docs
 
 after_success:
-  - if [[ $DEPLOY_DOCS == "true" ]]; then echo "Preparing to build and deploy documentation" ; chmod 755 ${TRAVIS_BUILD_DIR}/docs/deploy.sh ; echo "Executing" ; ${TRAVIS_BUILD_DIR}/docs/deploy.sh ; echo "Completed deploying documentation" ; fi
+  if ([ "$TRAVIS_BRANCH" == "master" ] || [ ! -z "$TRAVIS_TAG" ]) &&
+      [ "$TRAVIS_PULL_REQUEST" == "false" ] &&
+      [ "$DEPLOY_DOCS" == "true" ]; then
+    echo "This will deploy!"
+  else
+    echo "This will not deploy!"
+  fi
 
 notifications:
   email: true
