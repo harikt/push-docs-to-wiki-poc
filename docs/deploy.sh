@@ -14,38 +14,15 @@
 #
 # The script should be run from the project root.
 
-#set -o errexit ; set -o nounset
+if ([ "$TRAVIS_BRANCH" == "master" ] || [ ! -z "$TRAVIS_TAG" ]) &&
+    [ "$TRAVIS_PULL_REQUEST" == "false" ] &&
+    [ "$DEPLOY_DOCS" == "true" ]; then
+  echo "... preparing to build and deploy documentation"
+else
+  echo "Ignore deploying documentation"
+fi
 
 ls
-
-PROJECT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-echo $PROJECT_PATH
 echo $TRAVIS_BUILD_DIR
 
-# Get curent commit revision
-rev=$(git rev-parse --short HEAD)
-
-# Initialize gh-pages checkout
-mkdir -p ${TRAVIS_BUILD_DIR}/docs/build
-(
-    cd ${TRAVIS_BUILD_DIR}/docs/build
-    git init
-    git config user.name "Travis-CI"
-    git config user.email "travis@xtreamwayz.com"
-    git remote add upstream "https://${GH_TOKEN}@github.com/${GH_REPO}.wiki.git"
-    git fetch upstream
-    git reset upstream/master
-)
-
-# Build the documentation
-cp -rf ${TRAVIS_BUILD_DIR}/docs/wiki/* ${TRAVIS_BUILD_DIR}/docs/build/
-
-# Commit and push the documentation
-(
-    cd ${TRAVIS_BUILD_DIR}/docs/build
-    touch .
-    git add -A .
-    git commit -m "Rebuild wiki at ${rev}"
-    git push -q upstream HEAD:master
-)
+echo "... deployment ready"

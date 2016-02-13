@@ -26,13 +26,7 @@ install:
   - ls docs
 
 after_success:
-  if ([ "$TRAVIS_BRANCH" == "master" ] || [ ! -z "$TRAVIS_TAG" ]) &&
-      [ "$TRAVIS_PULL_REQUEST" == "false" ] &&
-      [ "$DEPLOY_DOCS" == "true" ]; then
-    echo "This will deploy!"
-  else
-    echo "This will not deploy!"
-  fi
+  - if [[ $DEPLOY_DOCS == 'true' ]]; then ./docs/deploy.sh || return 0 ; fi
 
 notifications:
   email: true
