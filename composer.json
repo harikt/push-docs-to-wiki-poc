@@ -5,5 +5,23 @@
             "name": "Geert Eltink"
         }
     ],
-    "require": {}
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^5.2"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AppTest\\": "test/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs",
+            "@test"
+        ],
+        "cs": "php vendor/squizlabs/php_codesniffer/scripts/phpcs",
+        "cs-fix": "php vendor/squizlabs/php_codesniffer/scripts/phpcbf",
+        "test": "php vendor/phpunit/phpunit/phpunit",
+        "coverage": "phpdbg -qrr vendor/phpunit/phpunit/phpunit --coverage-html ./data/coverage"
+    }
 }
