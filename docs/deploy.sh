@@ -40,8 +40,8 @@ mkdir -p ${TRAVIS_BUILD_DIR}/docs/build
     echo "... setup build dir"
     cd ${TRAVIS_BUILD_DIR}/docs/build
     git init
-    git config user.name "Travis-CI"
-    git config user.email "travis@xtreamwayz.com"
+    git config user.name "${GH_USER_NAME}"
+    git config user.email "${GH_USER_EMAIL}"
     git remote add upstream "https://${GH_TOKEN}@github.com/${GH_REPO}.wiki.git"
     git fetch upstream
     git reset upstream/master
