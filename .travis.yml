@@ -1,0 +1,24 @@
+sudo: false
+
+language: php
+
+matrix:
+  fast_finish: true
+  include:
+    - php: 7
+      env:
+        - DEPLOY_DOCS="$(if [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then echo -n 'true' ; else echo -n 'false' ; fi)"
+
+before_install:
+  - if [[ $EXECUTE_TEST_COVERALLS != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
+  - composer self-update
+
+install:
+  - travis_retry composer install --no-interaction
+  - composer info -i
+
+after_success:
+  - if [[ $DEPLOY_DOCS == "true" ]]; then echo "Preparing to build and deploy documentation" ; ./docs/deploy.sh ; echo "Completed deploying documentation" ; fi
+
+notifications:
+  email: true
