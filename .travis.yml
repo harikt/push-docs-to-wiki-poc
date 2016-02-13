@@ -22,9 +22,11 @@ install:
   - travis_retry composer install --no-interaction
   - composer info -i
   - echo ${TRAVIS_BUILD_DIR}
+  - ls
+  - ls docs
 
 after_success:
-  - if [[ $DEPLOY_DOCS == "true" ]]; then echo "Preparing to build and deploy documentation" ;  chmod 755 ${TRAVIS_BUILD_DIR}/docs/deploy.sh ; ${TRAVIS_BUILD_DIR}/docs/deploy.sh ; echo "Completed deploying documentation" ; fi
+  - if [[ $DEPLOY_DOCS == "true" ]]; then echo "Preparing to build and deploy documentation" ; chmod 755 ${TRAVIS_BUILD_DIR}/docs/deploy.sh ; echo "Executing" ; ${TRAVIS_BUILD_DIR}/docs/deploy.sh ; echo "Completed deploying documentation" ; fi
 
 notifications:
   email: true
