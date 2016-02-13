@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Deploy documentation to the github wiki
 #
 # Environment variables that may be of use:
