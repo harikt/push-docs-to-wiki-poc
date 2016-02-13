@@ -14,7 +14,7 @@
 #
 # The script should be run from the project root.
 
-set -o errexit -o nounset
+#set -o errexit ; set -o nounset
 
 cd $TRAVIS_BUILD_DIR
 
