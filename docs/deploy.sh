@@ -16,18 +16,15 @@
 
 set -o errexit -o nounset
 
-
-set SCRIPTPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-echo $SCRIPTPATH
-echo $TRAVIS_BUILD_DIR
+cd $TRAVIS_BUILD_DIR
 
 # Get curent commit revision
 rev=$(git rev-parse --short HEAD)
 
 # Initialize gh-pages checkout
-mkdir -p ${SCRIPTPATH}/build
+mkdir -p ${TRAVIS_BUILD_DIR}/docs/build
 (
-    cd ${SCRIPTPATH}/build
+    cd ${TRAVIS_BUILD_DIR}/docs/build
     git init
     git config user.name "${GH_USER_NAME}"
     git config user.email "${GH_USER_EMAIL}"
@@ -37,11 +34,11 @@ mkdir -p ${SCRIPTPATH}/build
 )
 
 # Build the documentation
-cp -rf ${SCRIPTPATH}/wiki/* ${SCRIPTPATH}/build/
+cp -rf ${TRAVIS_BUILD_DIR}/docs/wiki/* ${TRAVIS_BUILD_DIR}/docs/build/
 
 # Commit and push the documentation
 (
-    cd ${SCRIPTPATH}/build
+    cd ${TRAVIS_BUILD_DIR}/docs/build
     touch .
     git add -A .
     git commit -m "Rebuild wiki at ${rev}"
