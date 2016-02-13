@@ -18,7 +18,7 @@ install:
   - composer info -i
 
 after_success:
-  - if [[ $DEPLOY_DOCS == "true" ]]; then echo "Preparing to build and deploy documentation" ; ./docs/deploy.sh ; echo "Completed deploying documentation" ; fi
+  - if [[ $DEPLOY_DOCS == "true" ]]; then echo "Preparing to build and deploy documentation" ;  chmod 755 ./docs/deploy.sh ; ./docs/deploy.sh ; echo "Completed deploying documentation" ; fi
 
 notifications:
   email: true
