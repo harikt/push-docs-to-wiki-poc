@@ -14,13 +14,7 @@
 #
 # The script should be run from the project root.
 
-if ([ "$TRAVIS_BRANCH" == "master" ] || [ ! -z "$TRAVIS_TAG" ]) &&
-    [ "$TRAVIS_PULL_REQUEST" == "false" ] &&
-    [ "$DEPLOY_DOCS" == "true" ]; then
-  echo "... preparing to build and deploy documentation"
-else
-  echo "Ignore deploying documentation"
-fi
+echo "... preparing to build and deploy documentation"
 
 ls
 echo $TRAVIS_BUILD_DIR
