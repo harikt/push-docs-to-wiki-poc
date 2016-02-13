@@ -40,7 +40,7 @@ mkdir -p ${TRAVIS_BUILD_DIR}/docs/build
     echo "... setup build dir"
     cd ${TRAVIS_BUILD_DIR}/docs/build
     git init
-    git config user.name "${GH_USER_NAME}"
+    git config user.name "Travis-CI"
     git config user.email "${GH_USER_EMAIL}"
     git remote add upstream "https://${GH_TOKEN}@github.com/${GH_REPO}.wiki.git"
     git fetch upstream
@@ -53,12 +53,18 @@ cp -rf ${TRAVIS_BUILD_DIR}/docs/wiki/* ${TRAVIS_BUILD_DIR}/docs/build/
 
 # Commit and push the documentation
 (
-    echo "... commiting and pushing the docs"
     cd ${TRAVIS_BUILD_DIR}/docs/build
-    touch .
-    git add -A .
-    git commit -m "Rebuild wiki at ${rev}"
-    git push -q upstream HEAD:master
+
+    if [[ `git status --porcelain` ]]; then
+        echo "... commiting and pushing the docs"
+        touch .
+        git add -A .
+        git commit -m "Rebuild wiki at ${rev}"
+        git push -q upstream HEAD:master
+    else
+        echo "Ignoring deployment. No changes detected."
+        exit 0
+    fi
 )
 
 echo "... deployment ready"
