@@ -22,7 +22,7 @@ install:
   - composer info -i
 
 after_success:
-  - chmod 755 ./docs/deploy.sh
+  - chmod +x ./docs/deploy.sh
   - ./docs/deploy.sh
 
 notifications:

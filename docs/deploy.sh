@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 # Deploy documentation to the github wiki
 #
 # Environment variables that may be of use:
@@ -14,15 +14,20 @@
 #
 # The script should be run from the project root.
 
-echo "... started deploy docs script"
+if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
+    echo "This is a pull request. No deployment will be done."
+    exit 0
+fi
+if [[ "$TRAVIS_BRANCH" != "master" ]]; then
+    echo "Testing on a branch other than master. No deployment will be done."
+    exit 0
+fi
+if [[ "DEPLOY_DOCS" != "true" ]]; then
+    echo "Ignoring deployment. No deployment will be done."
+    exit 0
+fi
 
-if ([ "$TRAVIS_BRANCH" == "master" ] || [ ! -z "$TRAVIS_TAG" ]) &&
-  [ "$TRAVIS_PULL_REQUEST" == "false" ] &&
-  [ "$DEPLOY_DOCS" == "true" ]; then
-    echo "... preparing to build and deploy documentation"
-else
-  echo "... ignore deploying documentation"
-fi;
+echo "... started deploy docs script"
 
 ls
 echo $TRAVIS_BUILD_DIR
